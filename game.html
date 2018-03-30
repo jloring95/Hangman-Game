@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hangman!</title>
+</head>
+Press any key to enter
+<body>
+  <h1>Hangman!</h1>
+
+  <p id="wins"></p>
+  <p id="score"></p>
+  <p id="currentWord"></p>
+  <p id="guessed"></p>
+  <p id="lettersGuessed"></p>
+  <p id="losser"></p>
+
+
+  <script>
+
+    
+    // Create an array of words
+    var words = [
+    "javascript",
+     "monkey",
+    // "amazing",
+    // "pancake"
+    ];
+
+
+    // function pickWord(){
+    //   console.log(word);
+
+    //   var word = words[Math.floor(Math.random() * words.length)];
+    //   var answerArray = [];
+    //   for (var i = 0; i < word.length; i++) {
+    //     answerArray[i] = "_";
+    //   }
+    //   console.log(word);
+    //   return word;
+    // }
+
+
+      var word = new Object();    
+      var answerArray = new Object();
+      var remainingGuesses = new Object();
+      var lettersGuessed = new Object();
+      var numberWins = 0;
+      
+      function pickWord(){
+        var numberWins = 0;
+        var remainingGuesses = 0;
+        var lettersGuessed = [" "];
+        word = words[Math.floor(Math.random() * words.length)];
+        answerArray = [];
+        for (var i = 0; i < word.length; i++) {
+          answerArray[i] = "_";
+        }
+        // return answerArray;
+        // return word;
+        // return remainingGuesses;
+        // return lettersGuessed;
+        // document.querySelector("#currentWord").innerHTML = answerArray.join(" ");
+        hangman(word);
+      }
+
+console.log(remainingGuesses);
+
+  pickWord();
+
+console.log(pickWord);
+  
+function hangman(word){
+
+  remainingGuesses = word.length + 1;
+  lettersGuessed = [];
+  console.log(remainingGuesses);
+
+  function updateGuesses(){
+    if(remainingGuesses != 0){
+    document.querySelector("#wins").innerHTML = "Number of Wins: " + numberWins;  
+    document.querySelector("#score").innerHTML = "Remaining guesses: " + remainingGuesses;
+    document.querySelector("#currentWord").innerHTML = answerArray.join(" ");
+    document.querySelector("#lettersGuessed").innerHTML =  "Letters already guessed: " + lettersGuessed.join("  ") ;
+
+    }else{
+      document.querySelector("#score").innerHTML = "YOULOSe";
+    }
+  }
+  function updateWord(){
+    document.querySelector("#currentWord").innerHTML = answerArray.join(" ");
+  }
+
+  updateGuesses();
+}
+
+
+
+
+
+
+//document.querySelector("#currentWord").innerHTML = answerArray.join(" ");
+
+
+        
+//document.querySelector("#lettersGuessed").innerHTML =  "Letters already guessed: " + lettersGuessed.join("  ") ;
+
+//document.querySelector("#score").innerHTML = "Remaining guesses: " + remainingGuesses;
+
+    
+
+
+
+
+
+    
+    function arraysEqual(arr1, arr2) {
+
+      for(var i = arr1.length; i--;) {
+        if(arr1[i] !== arr2[i])
+        return false;
+      }
+
+      return true;
+    }
+    function arrayContains(needle, arrhaystack){
+      return (arrhaystack.indexOf(needle) > -1);
+    }
+
+    
+
+    
+
+    // if (remainingLetters !== 0){
+    //     document.querySelector("#currentWord").innerHTML = answerArray.join(" ");
+    //     document.querySelector("#lettersGuessed").innerHTML =  "Letters already guessed: " + lettersGuessed.join("  ");
+    //     document.querySelector("#score").innerHTML = "Remaining guesses: " + remainingLetters;
+    //   }
+    
+
+      //////////////////////////////////////////
+      
+      
+      
+    document.onkeyup = function(event) {
+
+      //If there are no more guesses , stop the function.
+      if (remainingGuesses === 0) {
+        document.querySelector("#score").innerHTML = "You lose. The word was " + word +". You got " + numberWins + " wins in a row!" ;
+        
+        return;
+      }
+
+      var guess = String.fromCharCode(event.which).toLowerCase();
+
+if( !arraysEqual(word,answerArray)){
+
+      if (!/[^a-zA-Z]/.test(guess) && !arrayContains(guess,lettersGuessed)){
+        
+        if(!arrayContains(guess,word)){
+
+          lettersGuessed.push(guess);
+          document.querySelector("#lettersGuessed").innerHTML ="Letters already guessed: " + lettersGuessed.join("  ");    
+          remainingGuesses--;
+          document.querySelector("#score").innerHTML = "Remaining guesses: " + remainingGuesses;
+          //updateGuesses();
+        }
+        
+        for (var j= 0; j<word.length; j++){
+          if (word[j] === guess) {
+            answerArray[j] = guess;
+            document.querySelector("#currentWord").innerHTML = answerArray.join(" ");
+            //updateWord();
+          }  
+        }
+        
+      //  var arrayContainsGUESS = (word.indexOf(guess) > -1);
+        // if (!arrayContainsGUESS){
+
+        // }
+        
+
+
+        
+
+        
+      }else{
+
+      }
+}else{
+  numberWins++;
+  pickWord();
+}
+
+
+    };
+    
+  </script>
+</body>
+</html>
